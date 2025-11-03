@@ -1,0 +1,67 @@
+/* Root background */
+.login-root {
+    -fx-background-color: linear-gradient(to bottom right, #1E2A38, #2E3B50); /* Dark bluish */
+    -fx-alignment: center;
+}
+
+/* Card */
+.login-card {
+    -fx-background-color: #1C2530; /* Dark card */
+    -fx-background-radius: 16;
+    -fx-padding: 30 40 30 40;
+    -fx-alignment: center;
+    -fx-spacing: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.6), 25, 0, 0, 8);
+    -fx-border-color: rgba(255,255,255,0.1);
+    -fx-border-radius: 16;
+}
+
+/* Logo */
+#logoImage {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 10, 0, 0, 4);
+}
+
+/* Title */
+.login-title {
+    -fx-font-size: 22px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #E0E0E0; /* Light gray text */
+}
+
+/* Inputs */
+.login-input {
+    -fx-background-color: #2A3545; /* Dark gray input */
+    -fx-background-radius: 8;
+    -fx-padding: 10 12;
+    -fx-font-size: 14px;
+    -fx-text-fill: #E0E0E0; /* Light text */
+    -fx-border-color: transparent;
+    -fx-border-radius: 8;
+}
+
+.login-input:focused {
+    -fx-border-color: #4A90E2; /* Blue border */
+    -fx-effect: dropshadow(three-pass-box, rgba(74,144,226,0.5), 8, 0, 0, 2);
+}
+
+/* Login Button */
+.login-button {
+    -fx-background-color: linear-gradient(to right, #4A90E2, #357ABD); /* Gradient button */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-font-size: 14px;
+    -fx-background-radius: 8;
+    -fx-padding: 10 20;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 8, 0, 0, 3);
+}
+
+.login-button:hover {
+    -fx-background-color: linear-gradient(to right, #5AA0F2, #468BD0); /* Brighter hover */
+}
+
+/* Error label */
+.error-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #FF6B6B; /* Softer red */
+}

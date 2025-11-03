@@ -1,0 +1,52 @@
+/* Styles for popup dialogs like profile and student form */
+.dialog-header {
+    -fx-background-color: #F4F7FC;
+    -fx-padding: 20px 30px;
+    -fx-border-color: #E0E0E0;
+    -fx-border-width: 0 0 1px 0;
+}
+
+.header-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.header-subtitle {
+    -fx-font-size: 14px;
+    -fx-text-fill: #7f8c8d;
+}
+
+.form-grid {
+    -fx-background-color: #FFFFFF;
+}
+
+.form-label {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #555;
+    -fx-padding-top: 4px; /* Align with text field center */
+}
+
+.message-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #333;
+    -fx-font-family: "Consolas", monospace;
+}
+
+.form-section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2196F3;
+    -fx-padding: 10px 0 5px 0;
+}
+
+/* Cancel/Close Button Style */
+#cancelButton {
+    -fx-background-color: #f44336;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+#cancelButton:hover {
+    -fx-background-color: #d32f2f;
+}

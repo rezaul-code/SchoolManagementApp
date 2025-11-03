@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<StackPane xmlns="http://javafx.com/javafx/21.0.0"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.management.school.controller.LoginController"
+           styleClass="login-root"
+           stylesheets="/css/login.css">
+
+    <!-- Centered Card -->
+    <VBox alignment="CENTER" spacing="15"
+          styleClass="login-card"
+          StackPane.alignment="CENTER"
+          maxWidth="400" minWidth="400"
+          maxHeight="450" minHeight="400">
+
+        <!-- Optional Logo -->
+        <ImageView fx:id="logoImage" fitWidth="220" fitHeight="220" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@/images/logo.jpeg"/>
+            </image>
+        </ImageView>
+
+        <!-- Title 
+        <Label text="Friendzon Login" styleClass="login-title"/>
+		-->
+		
+        <!-- Inputs -->
+        <TextField fx:id="usernameField" promptText="Username" styleClass="login-input"/>
+        <PasswordField fx:id="passwordField" promptText="Password" styleClass="login-input"/>
+
+        <!-- Login Button -->
+        <Button text="Login" onAction="#handleLogin" styleClass="login-button" defaultButton="true"/>
+
+        <!-- Error Label -->
+        <Label fx:id="errorLabel" styleClass="error-label"/>
+    </VBox>
+</StackPane>

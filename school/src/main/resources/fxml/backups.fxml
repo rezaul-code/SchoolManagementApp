@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21.0.0"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.management.school.controller.BackupController"
+      spacing="12" styleClass="page-wrapper" style="-fx-padding: 16;">
+
+    <HBox spacing="12" alignment="CENTER_LEFT">
+        <Label text="Database Backups" styleClass="section-title"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Button fx:id="btnCreateBackup" text="Create Backup" />
+        <Button fx:id="btnRestore" text="Restore Selected" />
+        <Button fx:id="btnOpenFolder" text="Open Backups Folder" />
+    </HBox>
+
+    <HBox spacing="12" alignment="CENTER_LEFT">
+        <Label text="Backup Destination:"/>
+        <Label fx:id="backupPathLabel" text="(not set)" styleClass="muted-label"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <CheckBox fx:id="cbAutoCleanup" text="Auto-clean backups older than" />
+        <Spinner fx:id="retentionSpinner" prefWidth="80" />
+        <Label text="days"/>
+    </HBox>
+
+    <SplitPane orientation="VERTICAL" prefHeight="420">
+        <AnchorPane minHeight="200">
+            <ListView fx:id="backupListView" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+                      AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
+        </AnchorPane>
+
+        <AnchorPane minHeight="120">
+            <TextArea fx:id="logArea" editable="false" wrapText="true" AnchorPane.topAnchor="0.0"
+                      AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"/>
+        </AnchorPane>
+    </SplitPane>
+
+    <HBox spacing="12" alignment="CENTER_RIGHT">
+        <ProgressIndicator fx:id="progressIndicator" visible="false" prefWidth="24" prefHeight="24"/>
+    </HBox>
+
+</VBox>
+
