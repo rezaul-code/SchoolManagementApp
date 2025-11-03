@@ -1,0 +1,68 @@
+/* Dashboard Root */
+.dashboard-root {
+    -fx-background-color: #F5F7FA;
+}
+
+/* Top Bar */
+.top-bar {
+    -fx-background-color: linear-gradient(to right, #1E2A38, #2E3B50);
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 8, 0, 0, 2);
+}
+
+.app-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.welcome-label {
+    -fx-font-size: 14px;
+    -fx-text-fill: #E0E0E0;
+}
+
+.logout-btn {
+    -fx-background-color: #E74C3C;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+}
+
+.logout-btn:hover {
+    -fx-background-color: #C0392B;
+}
+
+/* Dashboard Content */
+.dashboard-content {
+    -fx-padding: 40;
+}
+
+.dashboard-title {
+    -fx-font-size: 32px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2C3E50;
+}
+
+.user-info {
+    -fx-font-size: 16px;
+    -fx-text-fill: #7F8C8D;
+    -fx-text-alignment: center;
+}
+
+/* Dashboard Buttons */
+.dashboard-btn {
+    -fx-background-color: linear-gradient(to bottom, #3498DB, #2980B9);
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 10;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 10, 0, 0, 4);
+}
+
+.dashboard-btn:hover {
+    -fx-background-color: linear-gradient(to bottom, #5DADE2, #3498DB);
+    -fx-scale-y: 1.05;
+    -fx-scale-x: 1.05;
+}

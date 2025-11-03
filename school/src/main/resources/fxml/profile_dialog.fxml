@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox fx:id="rootVBox" spacing="0" stylesheets="/css/popup_form.css" 
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" 
+      fx:controller="com.management.school.controller.ProfileDialogController">
+    <VBox alignment="CENTER" styleClass="dialog-header">
+        <children>
+            <Label fx:id="nameLabel" styleClass="header-title" text="Admin Name" />
+            <Label styleClass="header-subtitle" text="User Profile Details" />
+        </children>
+    </VBox>
+    <GridPane hgap="10" vgap="15">
+        <padding>
+            <Insets bottom="20.0" left="25.0" right="25.0" top="20.0" />
+        </padding>
+        <columnConstraints>
+            <ColumnConstraints hgrow="NEVER" minWidth="120.0" />
+            <ColumnConstraints hgrow="ALWAYS" minWidth="250.0" />
+        </columnConstraints>
+        <children>
+            <Label styleClass="form-label" text="Username:" GridPane.rowIndex="0" />
+            <Label fx:id="usernameLabel" styleClass="message-label" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+            
+            <Label styleClass="form-label" text="Role:" GridPane.rowIndex="1" />
+            <Label fx:id="roleLabel" styleClass="message-label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            
+            <HBox alignment="CENTER_RIGHT" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                <children>
+                    <Button fx:id="closeButton" text="Close" />
+                </children>
+            </HBox>
+        </children>
+    </GridPane>
+</VBox>

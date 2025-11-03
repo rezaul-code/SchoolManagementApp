@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+
+<GridPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="com.management.school.controller.StudentFormController"
+          hgap="15" vgap="12" styleClass="form-grid">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <columnConstraints>
+        <ColumnConstraints minWidth="120" prefWidth="120"/>
+        <ColumnConstraints minWidth="250" prefWidth="250" hgrow="ALWAYS"/>
+    </columnConstraints>
+
+    <Label text="Personal Information" styleClass="form-section-title" GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="2"/>
+
+    <Label text="Name:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <TextField fx:id="nameField" promptText="Full Name *" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+
+    <Label text="Email:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <TextField fx:id="emailField" promptText="Email *" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
+    <Label text="Phone:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+    <TextField fx:id="phoneField" promptText="Phone Number" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+
+    <Label text="Date of Birth:" GridPane.columnIndex="0" GridPane.rowIndex="4"/>
+    <DatePicker fx:id="dobPicker" promptText="Date of Birth" GridPane.columnIndex="1" GridPane.rowIndex="4" maxWidth="Infinity"/>
+
+    <Label text="Academic Information" styleClass="form-section-title" GridPane.columnIndex="0" GridPane.rowIndex="5" GridPane.columnSpan="2"/>
+
+    <Label text="Roll Number:" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+    <TextField fx:id="rollNumberField" promptText="Roll Number *" GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+
+    <Label text="Grade:" GridPane.columnIndex="0" GridPane.rowIndex="7"/>
+    <ComboBox fx:id="gradeField" promptText="Select Grade *" GridPane.columnIndex="1" GridPane.rowIndex="7" maxWidth="Infinity"/>
+
+    <Label text="Section:" GridPane.columnIndex="0" GridPane.rowIndex="8"/>
+    <ComboBox fx:id="sectionField" promptText="Select Section *" GridPane.columnIndex="1" GridPane.rowIndex="8" maxWidth="Infinity"/>
+
+    <Label text="Gender:" GridPane.columnIndex="0" GridPane.rowIndex="9"/>
+    <ComboBox fx:id="genderComboBox" promptText="Select Gender *" GridPane.columnIndex="1" GridPane.rowIndex="9" maxWidth="Infinity"/>
+
+    <Label text="Admission Date:" GridPane.columnIndex="0" GridPane.rowIndex="10"/>
+    <DatePicker fx:id="admissionDatePicker" promptText="Admission Date *" GridPane.columnIndex="1" GridPane.rowIndex="10" maxWidth="Infinity"/>
+
+    <Label text="Guardian Information" styleClass="form-section-title" GridPane.columnIndex="0" GridPane.rowIndex="11" GridPane.columnSpan="2"/>
+
+    <Label text="Guardian Name:" GridPane.columnIndex="0" GridPane.rowIndex="12"/>
+    <TextField fx:id="guardianNameField" promptText="Guardian Name" GridPane.columnIndex="1" GridPane.rowIndex="12"/>
+
+    <Label text="Guardian Phone:" GridPane.columnIndex="0" GridPane.rowIndex="13"/>
+    <TextField fx:id="guardianPhoneField" promptText="Guardian Phone" GridPane.columnIndex="1" GridPane.rowIndex="13"/>
+
+    <Label text="Guardian Email:" GridPane.columnIndex="0" GridPane.rowIndex="14"/>
+    <TextField fx:id="guardianEmailField" promptText="Guardian Email" GridPane.columnIndex="1" GridPane.rowIndex="14"/>
+
+    <Label text="Address Information" styleClass="form-section-title" GridPane.columnIndex="0" GridPane.rowIndex="15" GridPane.columnSpan="2"/>
+
+    <Label text="Street:" GridPane.columnIndex="0" GridPane.rowIndex="16"/>
+    <TextField fx:id="streetField" promptText="Street Address" GridPane.columnIndex="1" GridPane.rowIndex="16"/>
+
+    <Label text="City:" GridPane.columnIndex="0" GridPane.rowIndex="17"/>
+    <TextField fx:id="cityField" promptText="City" GridPane.columnIndex="1" GridPane.rowIndex="17"/>
+
+    <Label text="State:" GridPane.columnIndex="0" GridPane.rowIndex="18"/>
+    <TextField fx:id="stateField" promptText="State" GridPane.columnIndex="1" GridPane.rowIndex="18"/>
+
+    <Label text="ZIP Code:" GridPane.columnIndex="0" GridPane.rowIndex="19"/>
+    <TextField fx:id="zipCodeField" promptText="ZIP Code" GridPane.columnIndex="1" GridPane.rowIndex="19"/>
+
+    <Label text="Country:" GridPane.columnIndex="0" GridPane.rowIndex="20"/>
+    <TextField fx:id="countryField" promptText="Country" GridPane.columnIndex="1" GridPane.rowIndex="20"/>
+    
+</GridPane>

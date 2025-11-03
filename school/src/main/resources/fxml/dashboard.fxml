@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.*?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21.0.0"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.management.school.controller.DashboardController"
+            styleClass="root-pane"
+            stylesheets="/css/dashboard.css">
+
+    <top>
+        <HBox fx:id="headerTop" spacing="15" style="-fx-padding: 10 20 10 20;" alignment="CENTER_LEFT">
+
+            <ImageView fx:id="logoImage" fitWidth="120" fitHeight="120"
+                       pickOnBounds="true" preserveRatio="true">
+                <image>
+                    <Image url="/images/logo.jpeg"/> 
+                </image>
+            </ImageView>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <VBox alignment="CENTER">
+                <Label text="School Management" styleClass="header-label"/>
+                <Label text="Hatsingimari  Pin-783135" styleClass="header-sub-label"/>
+            </VBox>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <HBox alignment="CENTER_RIGHT">
+                <MenuButton fx:id="userMenu"
+                            popupSide="BOTTOM"
+                            styleClass="menu-button"
+                            mnemonicParsing="false"
+                            contentDisplay="LEFT"
+                            nodeOrientation="LEFT_TO_RIGHT">
+
+                    <graphic>
+                        <HBox alignment="CENTER_RIGHT" spacing="6">
+                            <Label fx:id="userNameLabel"
+                                   styleClass="user-name-label"
+                                   text="Welcome" /> </HBox>
+                    </graphic>
+
+                    <items>
+                        <MenuItem fx:id="profileMenuItem" text="Profile"/>
+                        <MenuItem fx:id="changePasswordMenuItem" text="Change Password"/>
+                        <SeparatorMenuItem/>
+                        <MenuItem fx:id="logoutMenuItem" text="Logout" styleClass="logout-menu-item" />
+                    </items>
+                </MenuButton>
+            </HBox>
+        </HBox>
+    </top>
+
+    <center>
+        <TabPane fx:id="tabPane" tabClosingPolicy="UNAVAILABLE" styleClass="custom-tab-pane">
+            
+            <Tab fx:id="homeTab" text="Home">
+                </Tab>
+            
+            <Tab fx:id="studentTab" text="Students">
+                </Tab>
+
+            <Tab fx:id="teacherTab" text="Teachers">
+                </Tab>
+
+            <Tab fx:id="classTab" text="Classes">
+                </Tab>
+
+            <Tab fx:id="reportsTab" text="Reports">
+                </Tab>
+                
+            <Tab fx:id="backupsTab" text="Backups">
+                </Tab>
+
+        </TabPane>
+    </center>
+</BorderPane>
