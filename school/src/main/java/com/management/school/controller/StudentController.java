@@ -3,312 +3,325 @@ package com.management.school.controller;
 import com.management.school.core.SchoolSpringFXMLLoader;
 import com.management.school.model.Student;
 import com.management.school.service.StudentService;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
-import javafx.util.Callback;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-@Controller
+@Component
 public class StudentController {
 
-	@Autowired
-	private StudentService studentService;
+    @FXML private TableView<Student> studentTable;
+    @FXML private TableColumn<Student, Long> idColumn;
+    @FXML private TableColumn<Student, String> rollNumberColumn;
+    @FXML private TableColumn<Student, String> nameColumn;
+    @FXML private TableColumn<Student, String> gradeColumn;
+    @FXML private TableColumn<Student, String> emailColumn;
+    @FXML private TableColumn<Student, String> phoneColumn;
+    @FXML private TableColumn<Student, String> activeColumn;
+    @FXML private TableColumn<Student, Void> actionsColumn;
+    
+    @FXML private TextField searchField;
+    @FXML private ComboBox<String> gradeComboBox;
+    @FXML private ComboBox<String> sectionComboBox;
+    @FXML private ComboBox<Integer> yearComboBox;
+    @FXML private Button addButton;
 
-	@Autowired
-	private SchoolSpringFXMLLoader fxmlLoader;
+    @Autowired
+    private StudentService studentService;
+    
+    @Autowired
+    private SchoolSpringFXMLLoader schoolSpringFXMLLoader;
 
-	// Filter ComboBoxes
-	@FXML
-	private ComboBox<String> gradeComboBox;
-	@FXML
-	private ComboBox<String> sectionComboBox;
-	@FXML
-	private ComboBox<Integer> yearComboBox;
+    private final List<String> classLevels = List.of(
+            "Nursery", "KG", "I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X");
+    private final List<String> sections = List.of("A", "B");
 
-	@FXML
-	private TextField searchField;
-	@FXML
-	private TableView<Student> studentTable;
-	@FXML
-	private TableColumn<Student, Long> idColumn;
-	@FXML
-	private TableColumn<Student, String> rollNumberColumn;
-	@FXML
-	private TableColumn<Student, String> nameColumn;
-	@FXML
-	private TableColumn<Student, String> gradeColumn;
-	@FXML
-	private TableColumn<Student, String> emailColumn;
-	@FXML
-	private TableColumn<Student, String> phoneColumn;
-	@FXML
-	private TableColumn<Student, Boolean> activeColumn;
-	@FXML
-	private TableColumn<Student, Void> actionsColumn;
-
-	// Class and Section definitions
-	private final List<String> classLevels = List.of("Nursery", "KG", "I", "II", "III", "IV", "V", "VI", "VII", "VIII",
-			"IX", "X");
-	private final List<String> sections = List.of("A", "B");
-
-	@FXML
+    @FXML
     public void initialize() {
         setupTableColumns();
-        setupActionsColumn();
-        populateFilterComboBoxes();
+        setupFilterComboBoxes();
+        loadAllStudents();
+        setupFilterListeners();
+    }
 
-        // --- ADD THIS LINE ---
-        studentTable.setPlaceholder(new Label("No students found for the selected filters."));
-        // --- END OF NEW LINE ---
-
-        // Add listeners to filters
-        gradeComboBox.setOnAction(e -> loadStudentsByFilter());
-        sectionComboBox.setOnAction(e -> loadStudentsByFilter());
-        yearComboBox.setOnAction(e -> loadStudentsByFilter());
+    private void setupTableColumns() {
+        idColumn.setCellValueFactory(cellData -> 
+            new javafx.beans.property.SimpleLongProperty(cellData.getValue().getId()).asObject());
         
-        // Load initial data
-        loadStudentsByFilter();
+        rollNumberColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getRollNumber()));
+        
+        nameColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getName()));
+        
+        gradeColumn.setCellValueFactory(cellData -> {
+            Student student = cellData.getValue();
+            return new SimpleStringProperty(student.getGrade() + "-" + student.getSection());
+        });
+        
+        emailColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getEmail()));
+        
+        phoneColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().getPhone()));
+        
+        activeColumn.setCellValueFactory(cellData -> 
+            new SimpleStringProperty(cellData.getValue().isActive() ? "Active" : "Inactive"));
+        
+        // Style the active column
+        activeColumn.setCellFactory(column -> new TableCell<Student, String>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                    setStyle("");
+                } else {
+                    setText(item);
+                    if (item.equals("Active")) {
+                        setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
+                    } else {
+                        setStyle("-fx-text-fill: red;");
+                    }
+                }
+            }
+        });
+        
+        setupActionsColumn();
     }
 
-	private void setupTableColumns() {
-		idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-		nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-		rollNumberColumn.setCellValueFactory(new PropertyValueFactory<>("rollNumber"));
-		gradeColumn.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(
-				cellData.getValue().getGrade() + "-" + cellData.getValue().getSection()));
-		emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-		phoneColumn.setCellValueFactory(new PropertyValueFactory<>("phone"));
+    private void setupActionsColumn() {
+        actionsColumn.setCellFactory(param -> new TableCell<>() {
+            private final Button editButton = new Button("Edit");
+            private final Button deleteButton = new Button("Delete");
+            private final HBox actionBox = new HBox(5, editButton, deleteButton);
 
-		// Custom cell for active status with badge styling
-		activeColumn.setCellValueFactory(new PropertyValueFactory<>("active"));
-		activeColumn.setCellFactory(column -> new TableCell<Student, Boolean>() {
-			@Override
-			protected void updateItem(Boolean active, boolean empty) {
-				super.updateItem(active, empty);
-				if (empty || active == null) {
-					setText(null);
-					setGraphic(null);
-				} else {
-					Label statusLabel = new Label(active ? "Active" : "Inactive");
-					statusLabel.getStyleClass().add(active ? "status-active" : "status-inactive");
-					setGraphic(statusLabel);
-				}
-			}
-		});
-	}
+            {
+                editButton.getStyleClass().add("action-button");
+                deleteButton.getStyleClass().add("delete-button");
+                actionBox.setAlignment(Pos.CENTER);
 
-	private void setupActionsColumn() {
-		actionsColumn.setCellFactory(new Callback<TableColumn<Student, Void>, TableCell<Student, Void>>() {
-			@Override
-			public TableCell<Student, Void> call(TableColumn<Student, Void> param) {
-				return new TableCell<Student, Void>() {
-					private final Button editBtn = new Button("Edit");
-					private final Button deleteBtn = new Button("Delete");
-					private final HBox actionBox = new HBox(8, editBtn, deleteBtn);
+                editButton.setOnAction(event -> {
+                    Student student = getTableView().getItems().get(getIndex());
+                    handleEdit(student);
+                });
 
-					{
-						editBtn.getStyleClass().add("edit-button");
-						deleteBtn.getStyleClass().add("delete-button");
-						actionBox.setAlignment(Pos.CENTER);
-
-						editBtn.setOnAction(event -> {
-							Student student = getTableView().getItems().get(getIndex());
-							showStudentDialog(student);
-						});
-
-						deleteBtn.setOnAction(event -> {
-							Student student = getTableView().getItems().get(getIndex());
-							handleDeleteStudent(student);
-						});
-					}
-
-					@Override
-					protected void updateItem(Void item, boolean empty) {
-						super.updateItem(item, empty);
-						setGraphic(empty ? null : actionBox);
-					}
-				};
-			}
-		});
-	}
-
-	private void populateFilterComboBoxes() {
-		gradeComboBox.setItems(FXCollections.observableArrayList(classLevels));
-		gradeComboBox.setValue("X");
-
-		sectionComboBox.setItems(FXCollections.observableArrayList(sections));
-		sectionComboBox.setValue("A");
-
-		int currentYear = LocalDate.now().getYear();
-		List<Integer> years = IntStream.rangeClosed(currentYear - 5, currentYear).boxed().collect(Collectors.toList());
-		yearComboBox.setItems(FXCollections.observableArrayList(years));
-		yearComboBox.setValue(currentYear);
-	}
-
-	@FXML
-    private void loadStudentsByFilter() {
-        String grade = gradeComboBox.getValue();
-        String section = sectionComboBox.getValue();
-        Integer year = yearComboBox.getValue();
-
-        if (grade == null || section == null || year == null) {
-            return;
-        }
-
-        // --- ADD THIS LINE FOR DEBUGGING ---
-        System.out.println("Filtering for: Grade=" + grade + ", Section=" + section + ", Year=" + year);
-        // --- END OF NEW LINE ---
-
-        List<Student> filteredStudents = studentService.getStudentsByFilter(grade, section, year);
-        studentTable.setItems(FXCollections.observableArrayList(filteredStudents));
-    }
-
-	@FXML
-	private void handleAdd() {
-		showStudentDialog(null);
-	}
-
-	@FXML
-	private void handleSearch() {
-		String searchTerm = searchField.getText();
-		if (searchTerm == null || searchTerm.trim().isEmpty()) {
-			loadStudentsByFilter();
-		} else {
-			List<Student> results = studentService.searchStudents(searchTerm.trim());
-			studentTable.setItems(FXCollections.observableArrayList(results));
-		}
-	}
-
-	private void showStudentDialog(Student student) {
-        try {
-            // 1. Load the FXML view and its controller
-            SchoolSpringFXMLLoader.FXMLView<StudentFormController> fxmlView = 
-                fxmlLoader.loadWithController("/fxml/student_form.fxml");
-
-            Parent formRoot = fxmlView.getRoot();
-            StudentFormController formController = fxmlView.getController();
-
-            // 2. Create the dialog
-            Dialog<ButtonType> dialog = new Dialog<>();
-            dialog.setTitle(student == null ? "Add New Student" : "Edit Student");
-            dialog.getDialogPane().setContent(formRoot);
-            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
-
-            // 3. Populate the form if editing
-            if (student != null) {
-                formController.setStudent(student);
+                deleteButton.setOnAction(event -> {
+                    Student student = getTableView().getItems().get(getIndex());
+                    handleDelete(student);
+                });
             }
 
-            // 4. Add validation to OK button
-            Button okButton = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
-            okButton.addEventFilter(javafx.event.ActionEvent.ACTION, event -> {
-                // Validate inputs
-                if (!formController.validateInputs()) {
-                    event.consume(); // Prevent dialog from closing
-                    return;
-                }
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                setGraphic(empty ? null : actionBox);
+            }
+        });
+    }
 
-                // Get data from the form controller
-                Student studentToSave = formController.getStudentData(student);
+    private void setupFilterComboBoxes() {
+        // Populate grade combo box
+        gradeComboBox.setItems(FXCollections.observableArrayList(classLevels));
+        
+        // Populate section combo box
+        sectionComboBox.setItems(FXCollections.observableArrayList(sections));
+        
+        // Populate year combo box (last 10 years)
+        int currentYear = LocalDate.now().getYear();
+        List<Integer> years = IntStream.rangeClosed(currentYear - 9, currentYear)
+                .boxed()
+                .sorted((a, b) -> b - a)
+                .collect(Collectors.toList());
+        yearComboBox.setItems(FXCollections.observableArrayList(years));
+    }
 
-                // Save the data using the service
-                try {
-                    if (student != null) {
-                        studentService.updateStudent(student.getId(), studentToSave);
-                        showAlert("Success", "Student updated successfully!", Alert.AlertType.INFORMATION);
-                    } else {
-                        studentService.createStudent(studentToSave);
-                        showAlert("Success", "Student added successfully!", Alert.AlertType.INFORMATION);
+    private void setupFilterListeners() {
+        gradeComboBox.setOnAction(event -> applyFilters());
+        sectionComboBox.setOnAction(event -> applyFilters());
+        yearComboBox.setOnAction(event -> applyFilters());
+    }
 
-                        // --- THIS IS THE "PERFECT" FIX ---
-                        
-                        int newStudentYear = studentToSave.getAdmissionDate().getYear();
-                        
-                        // 1. Add the new year to the ComboBox list if it's not there
-                        if (!yearComboBox.getItems().contains(newStudentYear)) {
-                            yearComboBox.getItems().add(newStudentYear);
-                            FXCollections.sort(yearComboBox.getItems()); // Keep the list sorted
-                        }
+    private void applyFilters() {
+        String selectedGrade = gradeComboBox.getValue();
+        String selectedSection = sectionComboBox.getValue();
+        Integer selectedYear = yearComboBox.getValue();
 
-                        // 2. Get the current listeners
-                        var gradeAction = gradeComboBox.getOnAction();
-                        var sectionAction = sectionComboBox.getOnAction();
-                        var yearAction = yearComboBox.getOnAction();
-                        
-                        // 3. Temporarily disable listeners to prevent multiple reloads
-                        gradeComboBox.setOnAction(null);
-                        sectionComboBox.setOnAction(null);
-                        yearComboBox.setOnAction(null);
-                        
-                        // 4. Set all values
-                        gradeComboBox.setValue(studentToSave.getGrade());
-                        sectionComboBox.setValue(studentToSave.getSection());
-                        yearComboBox.setValue(newStudentYear); // Use the variable
-                        
-                        // 5. Restore the listeners
-                        gradeComboBox.setOnAction(gradeAction);
-                        sectionComboBox.setOnAction(sectionAction);
-                        yearComboBox.setOnAction(yearAction);
-                        
-                        // --- END OF FIX ---
-                    }
-                    
-                    // 6. Refresh the table just ONCE, after all values are set
-                    loadStudentsByFilter(); 
-                    
-                } catch (IllegalArgumentException e) {
-                    showAlert("Validation Error", e.getMessage(), Alert.AlertType.ERROR);
-                    event.consume(); // Prevent dialog from closing on validation error
-                } catch (Exception e) {
-                    showAlert("Error", "Failed to save student: " + e.getMessage(), Alert.AlertType.ERROR);
-                    event.consume(); // Prevent dialog from closing on error
-                }
-            });
-
-            dialog.showAndWait();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Error", "Could not load student form: " + e.getMessage(), Alert.AlertType.ERROR);
+        if (selectedGrade != null && selectedSection != null && selectedYear != null) {
+            List<Student> filteredStudents = studentService.getStudentsByFilter(
+                    selectedGrade, selectedSection, selectedYear);
+            studentTable.setItems(FXCollections.observableArrayList(filteredStudents));
+        } else {
+            loadAllStudents();
         }
     }
 
-	private void handleDeleteStudent(Student student) {
-		Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
-		confirmation.setTitle("Confirm Deletion");
-		confirmation.setHeaderText("Deactivate Student");
-		confirmation.setContentText("Are you sure you want to deactivate " + student.getName() + "?");
+    @FXML
+    private void handleSearch() {
+        String searchTerm = searchField.getText().trim();
+        if (!searchTerm.isEmpty()) {
+            List<Student> searchResults = studentService.searchStudents(searchTerm);
+            studentTable.setItems(FXCollections.observableArrayList(searchResults));
+        } else {
+            loadAllStudents();
+        }
+    }
 
-		confirmation.showAndWait().ifPresent(response -> {
-			if (response == ButtonType.OK) {
-				try {
-					studentService.deleteStudent(student.getId());
-					showAlert("Success", "Student deactivated successfully!", Alert.AlertType.INFORMATION);
-					loadStudentsByFilter();
-				} catch (Exception e) {
-					showAlert("Error", "Failed to deactivate student: " + e.getMessage(), Alert.AlertType.ERROR);
-				}
-			}
-		});
-	}
+    @FXML
+    private void handleAdd() {
+        try {
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setTitle("Add New Student");
+            dialog.setHeaderText("Enter Student Information");
+            
+            // Create TabPane for organizing form
+            TabPane tabPane = new TabPane();
+            
+            // TAB 1: Student Information
+            Tab studentInfoTab = new Tab("Student Information");
+            SchoolSpringFXMLLoader.FXMLView<StudentFormController> formView = 
+                schoolSpringFXMLLoader.loadWithController("/fxml/student_form.fxml");
+            studentInfoTab.setContent(formView.getRoot());
+            studentInfoTab.setClosable(false);
+            
+            // TAB 2: Documents
+            Tab documentsTab = new Tab("Documents");
+            SchoolSpringFXMLLoader.FXMLView<DocumentUploadController> docView = 
+                schoolSpringFXMLLoader.loadWithController("/fxml/document_upload.fxml");
+            documentsTab.setContent(docView.getRoot());
+            documentsTab.setClosable(false);
+            
+            tabPane.getTabs().addAll(studentInfoTab, documentsTab);
+            
+            dialog.getDialogPane().setContent(tabPane);
+            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+            
+            // Set minimum size
+            dialog.getDialogPane().setMinWidth(700);
+            dialog.getDialogPane().setMinHeight(600);
+            
+            Optional<ButtonType> result = dialog.showAndWait();
+            
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                if (formView.getController().validateInputs()) {
+                    Student newStudent = formView.getController().getStudentData(null);
+                    
+                    // Save student first
+                    Student savedStudent = studentService.createStudent(newStudent);
+                    
+                    // Now enable document uploads
+                    docView.getController().setStudent(savedStudent);
+                    
+                    showAlert("Success", "Student added successfully!", Alert.AlertType.INFORMATION);
+                    refreshTable();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to open form: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
 
-	private void showAlert(String title, String content, Alert.AlertType type) {
-		Alert alert = new Alert(type);
-		alert.setTitle(title);
-		alert.setHeaderText(null);
-		alert.setContentText(content);
-		alert.showAndWait();
-	}
+    private void handleEdit(Student student) {
+        try {
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setTitle("Edit Student");
+            dialog.setHeaderText("Edit Student Information");
+            
+            // Create TabPane
+            TabPane tabPane = new TabPane();
+            
+            // TAB 1: Student Information
+            Tab studentInfoTab = new Tab("Student Information");
+            SchoolSpringFXMLLoader.FXMLView<StudentFormController> formView = 
+                schoolSpringFXMLLoader.loadWithController("/fxml/student-form.fxml");
+            formView.getController().setStudent(student); // Load existing data
+            studentInfoTab.setContent(formView.getRoot());
+            studentInfoTab.setClosable(false);
+            
+            // TAB 2: Documents
+            Tab documentsTab = new Tab("Documents");
+            SchoolSpringFXMLLoader.FXMLView<DocumentUploadController> docView = 
+                schoolSpringFXMLLoader.loadWithController("/fxml/document-upload.fxml");
+            docView.getController().setStudent(student); // Load existing documents
+            documentsTab.setContent(docView.getRoot());
+            documentsTab.setClosable(false);
+            
+            tabPane.getTabs().addAll(studentInfoTab, documentsTab);
+            
+            dialog.getDialogPane().setContent(tabPane);
+            dialog.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+            
+            dialog.getDialogPane().setMinWidth(700);
+            dialog.getDialogPane().setMinHeight(600);
+            
+            Optional<ButtonType> result = dialog.showAndWait();
+            
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                if (formView.getController().validateInputs()) {
+                    Student updatedStudent = formView.getController().getStudentData(student);
+                    studentService.updateStudent(student.getId(), updatedStudent);
+                    
+                    showAlert("Success", "Student updated successfully!", Alert.AlertType.INFORMATION);
+                    refreshTable();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to edit student: " + e.getMessage(), Alert.AlertType.ERROR);
+        }
+    }
+
+    private void handleDelete(Student student) {
+        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmation.setTitle("Delete Student");
+        confirmation.setHeaderText("Delete " + student.getName());
+        confirmation.setContentText("Are you sure you want to delete this student? This action cannot be undone.");
+
+        Optional<ButtonType> result = confirmation.showAndWait();
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            try {
+                studentService.deleteStudent(student.getId());
+                showAlert("Success", "Student deleted successfully!", Alert.AlertType.INFORMATION);
+                refreshTable();
+            } catch (Exception e) {
+                showAlert("Error", "Failed to delete student: " + e.getMessage(), Alert.AlertType.ERROR);
+            }
+        }
+    }
+
+    private void loadAllStudents() {
+        List<Student> students = studentService.getAllStudents();
+        studentTable.setItems(FXCollections.observableArrayList(students));
+    }
+
+    private void refreshTable() {
+        // Clear filters
+        gradeComboBox.setValue(null);
+        sectionComboBox.setValue(null);
+        yearComboBox.setValue(null);
+        searchField.clear();
+        
+        // Reload all students
+        loadAllStudents();
+    }
+
+    private void showAlert(String title, String content, Alert.AlertType type) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(content);
+        alert.showAndWait();
+    }
 }

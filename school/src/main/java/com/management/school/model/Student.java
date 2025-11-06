@@ -31,9 +31,12 @@ public class Student {
     @Column(nullable = false)
     private String section;
     
+    // --- FIX START ---
+    // Changed type from String to Gender
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Gender gender;
+    private Gender gender; 
+    // --- FIX END ---
     
     @Column(nullable = false)
     private LocalDate admissionDate;
@@ -62,7 +65,7 @@ public class Student {
     
     public Student(String name, String email, String phone, 
                    LocalDate dateOfBirth, String rollNumber, String grade, String section,
-                   Gender gender, LocalDate admissionDate) {
+                   Gender gender, LocalDate admissionDate) { // --- FIX: Changed type from String to Gender
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -99,8 +102,11 @@ public class Student {
     public String getSection() { return section; }
     public void setSection(String section) { this.section = section; }
     
+    // --- FIX START ---
+    // Changed getter and setter to use the Gender enum
     public Gender getGender() { return gender; }
     public void setGender(Gender gender) { this.gender = gender; }
+    // --- FIX END ---
     
     public LocalDate getAdmissionDate() { return admissionDate; }
     public void setAdmissionDate(LocalDate admissionDate) { this.admissionDate = admissionDate; }

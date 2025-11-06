@@ -900,11 +900,7 @@ public class BackupController {
         return new SimpleDateFormat("MMM dd, yyyy HH:mm").format(new Date(timestamp));
     }
 
-    // ==================== Inner Classes ====================
-
-    /**
-     * Database configuration container
-     */
+  
     private static class DatabaseConfig {
         final String host;
         final String dbName;
