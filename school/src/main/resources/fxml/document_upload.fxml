@@ -1,0 +1,106 @@
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.ColumnConstraints?>
+
+<GridPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+          fx:id="documentGrid"
+          fx:controller="com.management.school.controller.DocumentUploadController"
+          hgap="15" vgap="12" styleClass="form-grid"
+          stylesheets="@/css/form.css">
+
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+
+    <columnConstraints>
+        <ColumnConstraints minWidth="180" prefWidth="180"/>
+        <ColumnConstraints minWidth="250" prefWidth="250" hgrow="ALWAYS"/>
+        <ColumnConstraints minWidth="100" prefWidth="100"/>
+        <ColumnConstraints minWidth="100" prefWidth="100"/>
+    </columnConstraints>
+
+    <!-- Section Title -->
+    <Label text="Student Documents" styleClass="form-section-title" 
+           GridPane.columnIndex="0" GridPane.rowIndex="0" GridPane.columnSpan="4">
+        <padding>
+            <Insets bottom="10"/>
+        </padding>
+    </Label>
+
+    <!-- Student Aadhar Card -->
+    <Label text="Student Aadhar Card:" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+    <Label fx:id="studentAadharLabel" text="Not uploaded" styleClass="document-status"
+           GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+    <Button fx:id="studentAadharUploadBtn" text="Upload" onAction="#handleStudentAadharUpload"
+            styleClass="secondary-button" GridPane.columnIndex="2" GridPane.rowIndex="1"/>
+    <HBox spacing="5" GridPane.columnIndex="3" GridPane.rowIndex="1">
+        <Button fx:id="studentAadharViewBtn" text="View" onAction="#handleStudentAadharView"
+                styleClass="action-button" disable="true"/>
+        <Button fx:id="studentAadharDeleteBtn" text="Delete" onAction="#handleStudentAadharDelete"
+                styleClass="delete-button" disable="true"/>
+    </HBox>
+
+    <!-- Student Birth Certificate -->
+    <Label text="Birth Certificate:" GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+    <Label fx:id="studentBirthCertLabel" text="Not uploaded" styleClass="document-status"
+           GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+    <Button fx:id="studentBirthCertUploadBtn" text="Upload" onAction="#handleStudentBirthCertUpload"
+            styleClass="secondary-button" GridPane.columnIndex="2" GridPane.rowIndex="2"/>
+    <HBox spacing="5" GridPane.columnIndex="3" GridPane.rowIndex="2">
+        <Button fx:id="studentBirthCertViewBtn" text="View" onAction="#handleStudentBirthCertView"
+                styleClass="action-button" disable="true"/>
+        <Button fx:id="studentBirthCertDeleteBtn" text="Delete" onAction="#handleStudentBirthCertDelete"
+                styleClass="delete-button" disable="true"/>
+    </HBox>
+
+    <!-- Student Photo -->
+    <Label text="Student Photo:" GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+    <Label fx:id="studentPhotoLabel" text="Not uploaded" styleClass="document-status"
+           GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+    <Button fx:id="studentPhotoUploadBtn" text="Upload" onAction="#handleStudentPhotoUpload"
+            styleClass="secondary-button" GridPane.columnIndex="2" GridPane.rowIndex="3"/>
+    <HBox spacing="5" GridPane.columnIndex="3" GridPane.rowIndex="3">
+        <Button fx:id="studentPhotoViewBtn" text="View" onAction="#handleStudentPhotoView"
+                styleClass="action-button" disable="true"/>
+        <Button fx:id="studentPhotoDeleteBtn" text="Delete" onAction="#handleStudentPhotoDelete"
+                styleClass="delete-button" disable="true"/>
+    </HBox>
+
+    <!-- Parent Documents Section -->
+    <Label text="Parent Documents" styleClass="form-section-title" 
+           GridPane.columnIndex="0" GridPane.rowIndex="4" GridPane.columnSpan="4">
+        <padding>
+            <Insets top="15" bottom="10"/>
+        </padding>
+    </Label>
+
+    <!-- Parent Aadhar Card -->
+    <Label text="Parent Aadhar Card:" GridPane.columnIndex="0" GridPane.rowIndex="5"/>
+    <Label fx:id="parentAadharLabel" text="Not uploaded" styleClass="document-status"
+           GridPane.columnIndex="1" GridPane.rowIndex="5"/>
+    <Button fx:id="parentAadharUploadBtn" text="Upload" onAction="#handleParentAadharUpload"
+            styleClass="secondary-button" GridPane.columnIndex="2" GridPane.rowIndex="5"/>
+    <HBox spacing="5" GridPane.columnIndex="3" GridPane.rowIndex="5">
+        <Button fx:id="parentAadharViewBtn" text="View" onAction="#handleParentAadharView"
+                styleClass="action-button" disable="true"/>
+        <Button fx:id="parentAadharDeleteBtn" text="Delete" onAction="#handleParentAadharDelete"
+                styleClass="delete-button" disable="true"/>
+    </HBox>
+
+    <!-- Parent Voter ID -->
+    <Label text="Parent Voter ID:" GridPane.columnIndex="0" GridPane.rowIndex="6"/>
+    <Label fx:id="parentVoterIdLabel" text="Not uploaded" styleClass="document-status"
+           GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+    <Button fx:id="parentVoterIdUploadBtn" text="Upload" onAction="#handleParentVoterIdUpload"
+            styleClass="secondary-button" GridPane.columnIndex="2" GridPane.rowIndex="6"/>
+    <HBox spacing="5" GridPane.columnIndex="3" GridPane.rowIndex="6">
+        <Button fx:id="parentVoterIdViewBtn" text="View" onAction="#handleParentVoterIdView"
+                styleClass="action-button" disable="true"/>
+        <Button fx:id="parentVoterIdDeleteBtn" text="Delete" onAction="#handleParentVoterIdDelete"
+                styleClass="delete-button" disable="true"/>
+    </HBox>
+
+</GridPane>

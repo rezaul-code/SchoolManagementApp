@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.management.school.controller.ReportController"
+            stylesheets="/css/dashboard.css" styleClass="root-pane">
+
+    <top>
+        <VBox styleClass="header-section">
+            <padding>
+                <Insets top="15" right="30" bottom="15" left="30"/>
+            </padding>
+            
+            <!-- Report Type Selection -->
+            <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-padding: 15 0 0 0;">
+                <VBox spacing="5">
+                    <Label text="Report Type" styleClass="field-label"/>
+                    <ComboBox fx:id="reportTypeComboBox" promptText="Select Report Type"
+                              styleClass="filter-combo" prefWidth="300"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </top>
+    
+    <center>
+        <VBox spacing="20" style="-fx-padding: 0 30 30 30;">
+            
+            <!-- Filters Section -->
+            <VBox spacing="15" styleClass="card" style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 8;">
+                <Label text="Report Filters" styleClass="section-title">
+                    <font>
+                        <Font name="System Bold" size="14"/>
+                    </font>
+                </Label>
+                
+                <!-- Student Report Filters -->
+                <VBox fx:id="studentReportFilters" spacing="10" visible="false" managed="false">
+                    <HBox spacing="15">
+                        <VBox spacing="5">
+                            <Label text="Grade" styleClass="field-label"/>
+                            <ComboBox fx:id="studentGradeComboBox" promptText="Select Grade"
+                                      styleClass="filter-combo" prefWidth="120"/>
+                        </VBox>
+                        
+                        <VBox spacing="5">
+                            <Label text="Section" styleClass="field-label"/>
+                            <ComboBox fx:id="studentSectionComboBox" promptText="Select Section"
+                                      styleClass="filter-combo" prefWidth="120"/>
+                        </VBox>
+                        
+                        <VBox spacing="5">
+                            <Label text="Admission Year" styleClass="field-label"/>
+                            <ComboBox fx:id="studentYearComboBox" promptText="Select Year"
+                                      styleClass="filter-combo" prefWidth="140"/>
+                        </VBox>
+                        
+                        <VBox spacing="5" alignment="BOTTOM_LEFT">
+                            <CheckBox fx:id="activeOnlyCheckBox" text="Active Students Only" 
+                                      selected="true" style="-fx-padding: 5 0 0 0;"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+                
+                <!-- Teacher Report Filters -->
+                <VBox fx:id="teacherReportFilters" spacing="10" visible="false" managed="false">
+                    <HBox spacing="15">
+                        <VBox spacing="5">
+                            <Label text="Subject" styleClass="field-label"/>
+                            <ComboBox fx:id="teacherSubjectComboBox" promptText="Select Subject"
+                                      styleClass="filter-combo" prefWidth="180"/>
+                        </VBox>
+                        
+                        <VBox spacing="5">
+                            <Label text="Joining Year" styleClass="field-label"/>
+                            <ComboBox fx:id="teacherYearComboBox" promptText="Select Year"
+                                      styleClass="filter-combo" prefWidth="140"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+                
+                <!-- Attendance Report Filters -->
+                <VBox fx:id="attendanceReportFilters" spacing="10" visible="false" managed="false">
+                    <HBox spacing="15">
+                        <VBox spacing="5">
+                            <Label text="Grade" styleClass="field-label"/>
+                            <ComboBox fx:id="attendanceGradeComboBox" promptText="All Grades"
+                                      styleClass="filter-combo" prefWidth="120"/>
+                        </VBox>
+                        
+                        <VBox spacing="5">
+                            <Label text="Section" styleClass="field-label"/>
+                            <ComboBox fx:id="attendanceSectionComboBox" promptText="All Sections"
+                                      styleClass="filter-combo" prefWidth="120"/>
+                        </VBox>
+                        
+                        <VBox spacing="5">
+                            <Label text="Start Date" styleClass="field-label"/>
+                            <DatePicker fx:id="startDatePicker" promptText="Start Date"
+                                        styleClass="filter-combo" prefWidth="160"/>
+                        </VBox>
+                        
+                        <VBox spacing="5">
+                            <Label text="End Date" styleClass="field-label"/>
+                            <DatePicker fx:id="endDatePicker" promptText="End Date"
+                                        styleClass="filter-combo" prefWidth="160"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+                
+                <!-- Class Report Filters -->
+                <VBox fx:id="classReportFilters" spacing="10" visible="false" managed="false">
+                    <HBox spacing="15">
+                        <VBox spacing="5">
+                            <Label text="Grade (Optional)" styleClass="field-label"/>
+                            <ComboBox fx:id="classGradeComboBox" promptText="All Grades"
+                                      styleClass="filter-combo" prefWidth="150"/>
+                        </VBox>
+                        
+                        <VBox spacing="5">
+                            <Label text="Section (Optional)" styleClass="field-label"/>
+                            <ComboBox fx:id="classSectionComboBox" promptText="All Sections"
+                                      styleClass="filter-combo" prefWidth="150"/>
+                        </VBox>
+                    </HBox>
+                </VBox>
+                
+                <!-- Generate Button -->
+                <HBox spacing="10" alignment="CENTER_LEFT" style="-fx-padding: 10 0 0 0;">
+                    <Button fx:id="generateButton" text="Generate Report" 
+                            onAction="#handleGenerateReport"
+                            styleClass="primary-button">
+                        <font>
+                            <Font name="System Bold" size="13"/>
+                        </font>
+                    </Button>
+                    
+                    <Label text="Select report type and filters, then click Generate" 
+                           style="-fx-text-fill: #666; -fx-font-size: 11px;"/>
+                </HBox>
+            </VBox>
+            
+            <!-- Report Preview Section -->
+            <VBox spacing="10" VBox.vgrow="ALWAYS" styleClass="card" 
+                  style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 8;">
+                <HBox spacing="15" alignment="CENTER_LEFT">
+                    <Label text="Report Preview" styleClass="section-title">
+                        <font>
+                            <Font name="System Bold" size="14"/>
+                        </font>
+                    </Label>
+                    
+                    <Region HBox.hgrow="ALWAYS"/>
+                    
+                    <Button fx:id="exportPdfButton" text="Export PDF" 
+                            onAction="#handleExportPdf"
+                            styleClass="secondary-button">
+                        <graphic>
+                            <Label text="📄" style="-fx-font-size: 14px;"/>
+                        </graphic>
+                    </Button>
+                    
+                    <Button fx:id="exportExcelButton" text="Export Excel" 
+                            onAction="#handleExportExcel"
+                            styleClass="secondary-button">
+                        <graphic>
+                            <Label text="📊" style="-fx-font-size: 14px;"/>
+                        </graphic>
+                    </Button>
+                </HBox>
+                
+                <TextArea fx:id="reportPreview" VBox.vgrow="ALWAYS"
+                          style="-fx-font-family: 'Courier New'; -fx-font-size: 11px;"
+                          wrapText="false"/>
+            </VBox>
+            
+        </VBox>
+    </center>
+    
+</BorderPane>

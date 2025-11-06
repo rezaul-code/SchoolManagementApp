@@ -1,0 +1,185 @@
+/* ===================================================
+  FORM STYLES (form.css) - Compact Dark Theme
+  - Fix for invisible text
+  - Removed all '-fx-lookup' variables to fix parsing errors
+===================================================
+*/
+
+/* * STEP 1: ROOT PANE
+ * This sets the base font and background color
+ * for the entire form window.
+*/
+.root-pane {
+    -fx-background-color: #1A212E; /* Dark background */
+    -fx-font-family: "Segoe UI", Arial, sans-serif;
+    -fx-font-size: 0.95em; /* Slightly smaller base font for compactness */
+}
+
+/* * STEP 2: FORM LAYOUT
+ * Reduced padding and spacing for a compact design.
+*/
+.form-container {
+    -fx-background-color: transparent;
+    -fx-spacing: 15; /* Spacing between the two form grids */
+}
+.form-container .padding {
+    -fx-padding: 15; /* Padding around the entire form */
+}
+
+.form-grid {
+    -fx-background-color: #2D3748; /* Darker "card" background */
+    -fx-background-radius: 6px;
+    -fx-border-radius: 6px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 10, 0, 0, 3);
+    -fx-hgap: 10; /* Reduced horizontal gap */
+    -fx-vgap: 8;  /* Reduced vertical gap */
+}
+.form-grid .padding {
+    -fx-padding: 15; /* Reduced internal padding of each grid */
+}
+
+/* * STEP 3: TEXT & TITLES
+ * This is the most important fix.
+ * We make all text light-colored.
+*/
+
+/* Section Titles (e.g., "Personal Information") */
+.form-section-title {
+    -fx-font-size: 1.3em;
+    -fx-font-weight: bold;
+    -fx-text-fill: #E2E8F0; /* Light text for titles */
+    -fx-border-width: 0 0 1px 0;
+    -fx-border-color: #4A5568; /* Grey border */
+    -fx-padding: 0 0 6px 0;
+}
+
+/* Labels (e.g., "Name:", "Email:") */
+.form-grid .label {
+    -fx-font-size: 1.0em;
+    -fx-font-weight: 500;
+    -fx-text-fill: #CBD5E0; /* !!! THIS IS THE FIX for invisible text !!! */
+}
+
+/* * STEP 4: INPUT FIELDS (TextField, ComboBox, DatePicker)
+ * Style all inputs to be compact and match the dark theme.
+*/
+.text-field,
+.combo-box,
+.date-picker {
+    -fx-font-size: 1.0em;
+    -fx-pref-height: 30px; /* Shorter height for compactness */
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-border-color: #4A5568;
+    -fx-prompt-text-fill: #A0AEC0; /* Lighter grey for prompt text */
+    -fx-background-color: #3B4557; /* Input field background */
+    -fx-text-fill: #E2E8F0; /* Make sure the text you type is light */
+}
+
+/* Input field when clicked (focused) */
+.text-field:focused,
+.combo-box:focused,
+.date-picker:focused {
+    -fx-border-color: #0078D4; /* Blue border on focus */
+    -fx-border-width: 2px;
+}
+
+/* ComboBox and DatePicker arrows */
+.combo-box .arrow,
+.date-picker .arrow {
+    -fx-background-color: #A0AEC0;
+}
+
+/* ComboBox dropdown list style */
+.combo-box .list-cell {
+    -fx-text-fill: #E2E8F0;
+    -fx-background-color: #2D3748;
+}
+.combo-box .list-cell:hover {
+    -fx-background-color: #1A4D6B; /* Dark blue on hover */
+    -fx-text-fill: white;
+}
+
+/* * STEP 5: SCROLLBAR
+ * Style the scrollbar to match the dark theme.
+*/
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+.scroll-pane {
+   -fx-background-color: transparent;
+}
+.scroll-pane .scroll-bar:vertical, 
+.scroll-pane .scroll-bar:horizontal {
+    -fx-background-color: #1A212E; /* Match outer background */
+}
+.scroll-pane .scroll-bar .thumb {
+    -fx-background-color: #4A5568; /* Dark grey thumb */
+    -fx-background-radius: 5px;
+}
+
+/* * =========================================
+ * STEP 6: DOCUMENT UPLOAD STYLES (NEW)
+ * =========================================
+*/
+
+/* Style for the "Not uploaded" label */
+.document-status {
+    -fx-font-style: italic;
+    -fx-text-fill: #A0AEC0; /* Muted text color */
+}
+
+/* Style for the "Upload" button */
+.secondary-button {
+    -fx-font-size: 0.9em;
+    -fx-font-weight: 600;
+    -fx-pref-height: 30px; /* Match input field height */
+    -fx-padding: 0 15px;
+    -fx-background-color: #4A5568; /* Muted grey */
+    -fx-text-fill: #E2E8F0;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-cursor: hand;
+}
+.secondary-button:hover {
+    -fx-background-color: #64748b; /* Lighter grey */
+}
+
+/* Style for the "View" button */
+.action-button {
+    -fx-font-size: 0.9em;
+    -fx-font-weight: 600;
+    -fx-pref-height: 28px; /* Slightly smaller */
+    -fx-padding: 0 10px;
+    -fx-background-color: #0078D4; /* Primary blue */
+    -fx-text-fill: white;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-cursor: hand;
+}
+.action-button:hover {
+    -fx-background-color: #0098f4; /* Lighter blue */
+}
+
+/* Style for the "Delete" button */
+.delete-button {
+    -fx-font-size: 0.9em;
+    -fx-font-weight: 600;
+    -fx-pref-height: 28px;
+    -fx-padding: 0 10px;
+    -fx-background-color: #ef4444; /* Danger red */
+    -fx-text-fill: white;
+    -fx-background-radius: 4px;
+    -fx-border-radius: 4px;
+    -fx-cursor: hand;
+}
+.delete-button:hover {
+    -fx-background-color: #f87171; /* Lighter red */
+}
+
+/* Style for disabled View/Delete buttons */
+.action-button:disabled,
+.delete-button:disabled {
+    -fx-opacity: 0.5;
+    -fx-cursor: default;
+}

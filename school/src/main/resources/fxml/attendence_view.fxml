@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.management.school.controller.AttendanceController"
+            stylesheets="/css/dashboard.css" styleClass="root-pane">
+
+    <top>
+        <VBox styleClass="header-section">
+            <padding>
+                <Insets top="10" right="30" bottom="10" left="30"/>
+            </padding>
+            
+            <!-- Filters -->
+            <HBox spacing="15" alignment="CENTER_LEFT" styleClass="filter-bar" style="-fx-padding: 10 0 0 0;">
+                
+                <VBox spacing="5">
+                    <Label text="Grade" styleClass="field-label"/>
+                    <ComboBox fx:id="gradeComboBox" promptText="Select Grade"
+                              styleClass="filter-combo" prefWidth="120"/>
+                </VBox>
+                
+                <VBox spacing="5">
+                    <Label text="Section" styleClass="field-label"/>
+                    <ComboBox fx:id="sectionComboBox" promptText="Select Section"
+                              styleClass="filter-combo" prefWidth="120"/>
+                </VBox>
+                
+                <VBox spacing="5">
+                    <Label text="Attendance Date" styleClass="field-label"/>
+                    <DatePicker fx:id="attendanceDatePicker" promptText="Select Date"
+                                styleClass="filter-combo" prefWidth="160"/>
+                </VBox>
+                
+                <HBox alignment="BOTTOM_CENTER" spacing="10">
+                    <Button fx:id="loadStudentsButton" text="Load Students" 
+                            onAction="#handleLoadStudents"
+                            styleClass="secondary-button">
+                        <HBox.margin>
+                            <Insets bottom="1.0"/>
+                        </HBox.margin>
+                    </Button>
+                </HBox>
+                
+                <Region HBox.hgrow="ALWAYS"/>
+                
+                <HBox alignment="BOTTOM_CENTER" spacing="10">
+                    <Button fx:id="viewHistoryButton" text="View History" 
+                            onAction="#handleViewHistory"
+                            styleClass="secondary-button">
+                        <HBox.margin>
+                            <Insets bottom="1.0"/>
+                        </HBox.margin>
+                    </Button>
+                    
+                    <Button fx:id="saveAttendanceButton" text="Save Attendance" 
+                            onAction="#handleSaveAttendance"
+                            styleClass="primary-button">
+                        <font>
+                            <Font name="System Bold" size="13"/>
+                        </font>
+                        <HBox.margin>
+                            <Insets bottom="1.0"/>
+                        </HBox.margin>
+                    </Button>
+                </HBox>
+
+            </HBox>
+            
+            <!-- Status Label -->
+            <HBox style="-fx-padding: 10 0 0 0;">
+                <Label fx:id="statusLabel" text="" styleClass="status-message">
+                    <font>
+                        <Font size="12"/>
+                    </font>
+                </Label>
+            </HBox>
+        </VBox>
+    </top>
+    
+    <center>
+        <VBox styleClass="table-container">
+            <padding>
+                <Insets top="0" right="30" bottom="30" left="30"/>
+            </padding>
+            
+            <!-- Instructions -->
+            <HBox styleClass="info-box" style="-fx-padding: 10; -fx-background-color: #e3f2fd; -fx-background-radius: 5;">
+                <VBox.margin>
+                    <Insets bottom="15"/>
+                </VBox.margin>
+                <Label text="ℹ  Instructions: P = Present | A = Absent | L = Late | E = Excused. Select attendance status for each student and click 'Save Attendance'."
+                       style="-fx-text-fill: #1976d2;" wrapText="true">
+                    <font>
+                        <Font size="12"/>
+                    </font>
+                </Label>
+            </HBox>
+            
+            <TableView fx:id="attendanceTable" VBox.vgrow="ALWAYS" styleClass="student-table">
+                <columns>
+                    <TableColumn fx:id="rollNumberColumn" text="Roll Number" prefWidth="120" 
+                                 styleClass="table-column"/>
+                    <TableColumn fx:id="nameColumn" text="Student Name" prefWidth="200" 
+                                 styleClass="table-column"/>
+                    <TableColumn fx:id="gradeColumn" text="Grade-Section" prefWidth="120" 
+                                 styleClass="table-column"/>
+                    <TableColumn fx:id="statusColumn" text="Attendance Status" prefWidth="250" 
+                                 styleClass="table-column"/>
+                    <TableColumn fx:id="remarksColumn" text="Remarks" prefWidth="200" 
+                                 styleClass="table-column"/>
+                </columns>
+                <columnResizePolicy>
+                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                </columnResizePolicy>
+            </TableView>
+        </VBox>
+    </center>
+    
+</BorderPane>

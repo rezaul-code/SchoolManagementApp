@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 
 <BorderPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.management.school.controller.StudentController"
+            fx:controller="com.management.school.controller.TeacherController"
             stylesheets="/css/dashboard.css" styleClass="root-pane">
 
     <top>
@@ -26,7 +26,7 @@
             <HBox spacing="15" alignment="CENTER_LEFT" styleClass="filter-bar">
                 
                 <VBox spacing="5">
-                    <Label text="Search Student" styleClass="field-label"/>
+                    <Label text="Search Teacher" styleClass="field-label"/>
                     <HBox spacing="10">
                         <TextField fx:id="searchField" promptText="Search by name..."
                                    styleClass="search-field" prefWidth="250"/>
@@ -35,19 +35,13 @@
                 </VBox>
                 
                 <VBox spacing="5">
-                    <Label text="Grade" styleClass="field-label"/>
-                    <ComboBox fx:id="gradeComboBox" promptText="Select Grade"
-                              styleClass="filter-combo" prefWidth="120"/>
+                    <Label text="Subject" styleClass="field-label"/>
+                    <ComboBox fx:id="subjectComboBox" promptText="Select Subject"
+                              styleClass="filter-combo" prefWidth="160"/>
                 </VBox>
                 
                 <VBox spacing="5">
-                    <Label text="Section" styleClass="field-label"/>
-                    <ComboBox fx:id="sectionComboBox" promptText="Select Section"
-                              styleClass="filter-combo" prefWidth="120"/>
-                </VBox>
-                
-                <VBox spacing="5">
-                    <Label text="Admission Year" styleClass="field-label"/>
+                    <Label text="Joining Year" styleClass="field-label"/>
                     <ComboBox fx:id="yearComboBox" promptText="Select Year"
                               styleClass="filter-combo" prefWidth="140"/>
                 </VBox>
@@ -55,7 +49,7 @@
                 <Region HBox.hgrow="ALWAYS"/>
                 
                 <HBox alignment="BOTTOM_CENTER">
-                    <Button fx:id="addButton" text="+ Add Student" onAction="#handleAdd"
+                    <Button fx:id="addButton" text="+ Add Teacher" onAction="#handleAdd"
                             styleClass="primary-button">
                         <font>
                             <Font name="System Bold" size="13"/>
@@ -76,12 +70,12 @@
                 <Insets top="0" right="30" bottom="30" left="30"/>
             </padding>
             
-            <TableView fx:id="studentTable" VBox.vgrow="ALWAYS" styleClass="student-table">
+            <TableView fx:id="teacherTable" VBox.vgrow="ALWAYS" styleClass="student-table">
                 <columns>
                     <TableColumn fx:id="idColumn" text="ID" prefWidth="60" styleClass="table-column"/>
-                    <TableColumn fx:id="rollNumberColumn" text="Roll Number" prefWidth="120" styleClass="table-column"/>
+                    <TableColumn fx:id="employeeIdColumn" text="Employee ID" prefWidth="120" styleClass="table-column"/>
                     <TableColumn fx:id="nameColumn" text="Name" prefWidth="180" styleClass="table-column"/>
-                    <TableColumn fx:id="gradeColumn" text="Grade-Section" prefWidth="120" styleClass="table-column"/>
+                    <TableColumn fx:id="subjectColumn" text="Subject" prefWidth="140" styleClass="table-column"/>
                     <TableColumn fx:id="emailColumn" text="Email" prefWidth="200" styleClass="table-column"/>
                     <TableColumn fx:id="phoneColumn" text="Phone" prefWidth="130" styleClass="table-column"/>
                     <TableColumn fx:id="activeColumn" text="Status" prefWidth="90" styleClass="table-column"/>

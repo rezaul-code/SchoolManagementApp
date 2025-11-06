@@ -21,7 +21,7 @@ public class DashboardController {
 
     // ===== Tabs =====
     @FXML private TabPane tabPane;
-    @FXML private Tab homeTab, studentTab, teacherTab, classTab, reportsTab, backupsTab;
+    @FXML private Tab homeTab, studentTab, teacherTab, classTab, attendanceTab, reportsTab, backupsTab;
 
     // ===== User Menu =====
     @FXML private MenuButton userMenu;
@@ -72,14 +72,16 @@ public class DashboardController {
                 if (newTab == studentTab) {
                     loadTabContent(studentTab, "/fxml/student_management.fxml", "Student tab loaded.");
                 } else if (newTab == teacherTab) {
-                    loadTabContent(teacherTab, "/fxml/teacher-management.fxml", "Teacher tab loaded.");
+                    loadTabContent(teacherTab, "/fxml/teacher_view.fxml", "Teacher tab loaded.");
                 } else if (newTab == classTab) {
-                    loadTabContent(classTab, "/fxml/class-management.fxml", "Class tab loaded.");
+                    loadTabContent(classTab, "/fxml/class_management.fxml", "Class tab loaded.");
                 } else if (newTab == reportsTab) {
                     loadTabContent(reportsTab, "/fxml/reports.fxml", "Reports tab loaded.");
                 } else if (newTab == backupsTab) {
                     loadTabContent(backupsTab, "/fxml/backups.fxml", "backups tab loaded.");
-                }
+                } else if (newTab == attendanceTab) {
+                    loadTabContent(attendanceTab, "/fxml/attendence_view.fxml", "Attendance tab loaded.");
+                } 
                 
             } catch (Exception e) {
                 e.printStackTrace();

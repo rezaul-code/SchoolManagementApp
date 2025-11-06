@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.image.*?>
 
-<StackPane xmlns="http://javafx.com/javafx/21.0.0"
+<StackPane xmlns="http://javafx.com/javafx/17"
            xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.management.school.controller.LoginController"
            styleClass="login-root"
